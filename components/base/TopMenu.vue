@@ -13,8 +13,8 @@
 </template>
 <script setup lang="ts">
 const toGithub = () => {
-  window.open('https://github.com/LiuTianjie')
-}
+  window.open('https://github.com/LiuTianjie');
+};
 </script>
 <style scoped>
 .top-container {
