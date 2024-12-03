@@ -2,7 +2,7 @@
   <div class="menu-container">
     <div class="space-y-[16px]">
       <div v-for="(menu, index) in menu_functions" :key="index"
-        :class="index == menu_index ? 'menu-item-active' : 'menu-item'" @click.stop="selectMenu(menu, index)">
+        :class="menu.route == route.path ? 'menu-item-active' : 'menu-item'" @click.stop="selectMenu(menu, index)">
         <Icon v-if="menu.icon" :name="menu.icon" size="20" />
         <div> {{ menu.name }}</div>
       </div>
@@ -103,9 +103,9 @@ const menu_functions = ref([
   }
 ]);
 
-const menu_index = ref(0);
+const route = useRoute();
+
 const selectMenu = async (menu: MenuItem, index: number) => {
-  menu_index.value = index;
   await navigateTo({
     path: menu.route
   });
@@ -115,17 +115,20 @@ const selectMenu = async (menu: MenuItem, index: number) => {
 <style scoped>
 .menu-container {
   @apply w-[200px] h-screen pt-[66px] py-[16px] px-[2px] overflow-y-scroll bg-[#f6f6f7] px-[16px] rounded-[4px];
+  @apply dark:(bg-[#1e1e1e] text-white);
 }
 
 .menu-item {
   @apply flex justify-center items-center space-x-[4px];
   @apply ring-2 ring-gray-200 text-gray-400 rounded-[6px] text-[14px] p-[8px] cursor-pointer;
   @apply hover:(bg-[#FFFFFF50] backdrop-opacity-30 ring-dark-200 transition-all duration-100 text-dark-500);
+  @apply dark:hover:(bg-dark-50 text-white ring-light-200);
 }
 
 .menu-item-active {
   @apply flex justify-center items-center space-x-[4px];
   @apply ring-2 rounded-[6px] p-[8px] cursor-pointer font-bold;
   @apply bg-[#FFFFFF50] backdrop-opacity-30 ring-blue-500 transition-all duration-100 text-blue-500 text-[15px];
+  @apply dark:(bg-[#1e1e1e] text-white ring-light-200);
 }
 </style>

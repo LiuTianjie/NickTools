@@ -23,20 +23,34 @@ const computeObject = computed(() => {
 <style scoped>
 .json-container {
   @apply w-full min-h-[calc(100vh-82px)] px-[16px];
+  @apply dark:(bg-[#1e1e1e] text-white);
 }
 
 .json-textarea {
   @apply flex-1 min-h-full resize-none rounded-[8px] border border-blue-gray-200 p-[16px] font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200;
   @apply focus:(border-1 border-gray-900 outline-0);
+  @apply dark:(bg-[#1e1e1e] text-white border-light-200);
 }
 
 .json-viewer {
   @apply flex-1 min-h-full border-1 border border-blue-gray-200 border-solid p-[16px] rounded-[8px];
+  @apply dark:(bg-[#1e1e1e] text-white border-light-200);
 }
 </style>
 <style>
 .jv-container,
 .jv-code {
   padding: 0 !important;
+}
+
+.dark .jv-container,
+.jv-code {
+  @apply dark:(bg-[#1e1e1e] text-white border-light-200);
+}
+
+.dark .jv-container,
+.jv-code,
+.jv-node .jv-key {
+  @apply dark:(text-white) !important;
 }
 </style>

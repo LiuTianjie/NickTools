@@ -1,6 +1,6 @@
 <template>
   <div class="editor-container">
-    <DiffCodeContainer oldvalue="hehe" newvalue="haha"></DiffCodeContainer>
+    <DiffCodeContainer></DiffCodeContainer>
   </div>
 </template>
 

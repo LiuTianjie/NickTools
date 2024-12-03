@@ -16,4 +16,8 @@ body {
 * {
   box-sizing: border-box !important;
 }
+
+.dark body {
+  @apply bg-[#1e1e1e] text-white;
+}
 </style>
