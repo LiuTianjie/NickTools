@@ -68,7 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import { api } from '~/api';
 import { useToast } from '#imports';
 const toast = useToast();
 const { count, isActive, startCount } = useTimeCounter()
@@ -81,6 +80,7 @@ const email = ref('');
 const code = ref()
 const traceId = ref('')
 const btnLoading = ref(false)
+const { setUserInfo } = useUserInfoStore()
 const emit = defineEmits(['close'])
 
 const changeLoginMode = (mode: string) => {
@@ -133,6 +133,7 @@ const getCode = useDebounceFn(() => {
   })
 }, 300)
 
+
 const login = useDebounceFn(() => {
   const account = email.value || phone.value;
   if (!account || !password.value) {
@@ -140,8 +141,9 @@ const login = useDebounceFn(() => {
     return
   } else {
     btnLoading.value = true
-    api.login({ account, password: password.value }).then(res => {
+    api.login({ account, password: password.value }).then((res: any) => {
       toast.add({ severity: 'success', summary: '成功', detail: '登录成功', life: 3000 });
+      setUserInfo(res.data)
       emit('close')
     }).catch(() => {
       toast.add({ severity: 'error', summary: '错误', detail: '登录失败', life: 3000 });

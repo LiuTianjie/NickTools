@@ -6,8 +6,11 @@
     </div>
     <div class="flex items-center space-x-[16px]">
       <ColorMode></ColorMode>
-      <Icon class="cursor-pointer text-dark-100 dark:text-light-100" name="flowbite:user-circle-solid" size="24"
+      <div v-if="user.data">{{ user.data?.account }}</div>
+      <Icon v-else class="cursor-pointer text-dark-100 dark:text-light-100" name="flowbite:user-circle-solid" size="24"
         @click.stop="showLogin" />
+      <Icon v-if="user.data" class="cursor-pointer text-dark-100 dark:text-light-100" name="tabler:logout" size="24"
+        @click.stop="logOut" />
     </div>
   </div>
 
@@ -15,8 +18,14 @@
 <script setup lang="ts">
 import { UserLoginPopup } from "#components"
 const nuxtApp = useNuxtApp()
+const user = useUserInfoStore()
+
 const showLogin = () => {
   openPopup(UserLoginPopup)
+}
+const logOut = () => {
+  user.clearUserInfo()
+  nuxtApp.$router.push('/json')
 }
 </script>
 <style scoped>

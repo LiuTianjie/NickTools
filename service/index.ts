@@ -1,5 +1,4 @@
 import { type UseFetchOptions } from "nuxt/app";
-
 type Methods = "GET" | "POST" | "DELETE" | "PUT";
 
 const BASE_URL = "https://api.enjoygpt.shop";
@@ -10,17 +9,22 @@ export interface IResultData<T> {
   msg: string;
 }
 class HttpRequest {
-  request<T = any>(
+  request<T = any, U = any>(
     url: string,
     method: Methods,
     data: any,
     options?: UseFetchOptions<T>
   ) {
-    return new Promise((resolve, reject) => {
+    return new Promise<IResultData<U>>((resolve, reject) => {
+      const userInfo = useUserInfoStore();
       // 继承UseFetchOptions类型，包含了baseURL和method两个属性
       const newOptions: UseFetchOptions<T> = {
         baseURL: BASE_URL,
         method,
+        server: false,
+        headers: {
+          Authorization: `Bearer ${userInfo.data?.token || ""}`,
+        },
         ...options,
       };
 
@@ -36,7 +40,7 @@ class HttpRequest {
 
       // 发送请求
       useFetch(url, newOptions)
-        .then((res) => {
+        .then((res: any) => {
           if (res.status.value !== "success") {
             reject(res.error.value?.data.msg);
           } else {
@@ -51,20 +55,46 @@ class HttpRequest {
   }
 
   // 封装常用方法
-  get<T = any>(url: string, params?: any, options?: UseFetchOptions<T>) {
-    return this.request(url, "GET", params, options);
+  get<T = any, U = any>(url: string, params?: T, options?: UseFetchOptions<T>) {
+    return this.request<T, U>(url, "GET", params, options);
   }
 
-  post<T = any>(url: string, data: any, options?: UseFetchOptions<T>) {
-    return this.request(url, "POST", data, options);
+  post<T = any, U = any>(url: string, data: T, options?: UseFetchOptions<T>) {
+    return this.request<T, U>(url, "POST", data, options);
   }
 
-  Put<T = any>(url: string, data: any, options?: UseFetchOptions<T>) {
-    return this.request(url, "PUT", data, options);
+  Put<T = any, U = any>(url: string, data: T, options?: UseFetchOptions<T>) {
+    return this.request<T, U>(url, "PUT", data, options);
   }
 
-  Delete<T = any>(url: string, params: any, options?: UseFetchOptions<T>) {
-    return this.request(url, "DELETE", params, options);
+  Delete<T = any, U = any>(
+    url: string,
+    params: T,
+    options?: UseFetchOptions<T>
+  ) {
+    return this.request<T, U>(url, "DELETE", params, options);
+  }
+
+  async stream(url: string, body: any, callback: Function) {
+    const userInfo = useUserInfoStore();
+    const token = userInfo.data?.token || "";
+    const config = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "stream",
+      body,
+    };
+    const resp: any = await $fetch(`${BASE_URL}${url}`, config);
+    const reader = resp.pipeThrough(new TextDecoderStream()).getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      callback(value);
+      if (done) {
+        break;
+      }
+    }
   }
 }
 

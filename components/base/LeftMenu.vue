@@ -134,6 +134,6 @@ const selectMenu = async (menu: MenuItem, index: number) => {
   @apply flex justify-center items-center space-x-[4px];
   @apply ring-2 rounded-[6px] p-[8px] cursor-pointer font-bold;
   @apply bg-[#FFFFFF50] backdrop-opacity-30 ring-blue-500 transition-all duration-100 text-blue-500 text-[15px];
-  @apply dark:(bg-[#1e1e1e] text-white ring-light-200);
+  @apply dark:(bg-dark-50 text-white ring-light-200);
 }
 </style>

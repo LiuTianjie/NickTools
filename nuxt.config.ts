@@ -2,6 +2,9 @@
 import { nickPreset } from "./nickPreset";
 
 export default defineNuxtConfig({
+  imports: {
+    dirs: ["api", "utils", "*/**/*.d.ts"],
+  },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   modules: [
