@@ -4,20 +4,20 @@
       <Icon name="fluent:math-formula-16-filled" size="18" class="text-dark-100 dark:text-light-100" />
       <div class="font-semibold text-[20px] top-title"> NickTools</div>
     </div>
-    <div class="flex items-center space-x-[8px]">
+    <div class="flex items-center space-x-[16px]">
       <ColorMode></ColorMode>
-      <Icon class="cursor-pointer text-dark-100 dark:text-light-100" name="duo-icons:bell-badge" size="26"
-        @click.stop="toGithub" />
-      <Icon class="cursor-pointer text-dark-100 dark:text-light-100" name="uil:github" size="32"
-        @click.stop="toGithub" />
+      <Icon class="cursor-pointer text-dark-100 dark:text-light-100" name="flowbite:user-circle-solid" size="24"
+        @click.stop="showLogin" />
     </div>
   </div>
 
 </template>
 <script setup lang="ts">
-const toGithub = () => {
-  window.open('https://github.com/LiuTianjie');
-};
+import { UserLoginPopup } from "#components"
+const nuxtApp = useNuxtApp()
+const showLogin = () => {
+  openPopup(UserLoginPopup)
+}
 </script>
 <style scoped>
 .top-container {

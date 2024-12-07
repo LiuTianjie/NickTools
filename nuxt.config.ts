@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "nuxt-monaco-editor",
     "@primevue/nuxt-module",
     "@nuxtjs/color-mode",
+    "@vueuse/nuxt",
   ],
   primevue: {
     options: {

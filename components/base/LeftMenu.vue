@@ -22,6 +22,16 @@ const menu_functions = ref([
     route: '/json'
   },
   {
+    name: '满纯血GPT',
+    icon: 'hugeicons:ai-chat-02',
+    route: '/gpt'
+  },
+  {
+    name: 'Vue-SFC',
+    icon: 'ph:file-vue-fill',
+    route: '/vuesfc'
+  },
+  {
     name: '时间戳转换',
     icon: 'mdi:clock-time-seven-outline',
     route: '/timestamp'
@@ -50,11 +60,6 @@ const menu_functions = ref([
     name: 'AI视频生成',
     icon: 'tdesign:mobile-shortcut-filled',
     route: '/video'
-  },
-  {
-    name: '满纯血GPT',
-    icon: 'hugeicons:ai-chat-02',
-    route: '/gpt'
   },
   {
     name: '摸鱼冠军',
