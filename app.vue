@@ -2,6 +2,7 @@
   <NuxtRouteAnnouncer />
   <NuxtLayout name="baselayout">
     <NuxtPage></NuxtPage>
+    <Toast />
   </NuxtLayout>
 </template>
 <script setup lang="ts">

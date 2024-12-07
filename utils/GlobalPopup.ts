@@ -1,20 +1,16 @@
-import { createVNode, render, h } from "vue";
+import { createVNode, render } from "vue";
 import GlobalPopup from "~/components/popups/GlobalPopup.vue";
 import { v4 as uuidv4 } from "uuid";
-import { useNuxtApp } from "#app"; // 引入 useNuxtApp
+import { useNuxtApp } from "#app";
 
 const openPopup = function (component: any, data?: any) {
   const id = uuidv4();
   if (process.server) return;
 
-  const nuxtApp = useNuxtApp(); // 获取 Nuxt 应用实例
-  const appContext = nuxtApp.vueApp._context; // 获取应用上下文
+  const nuxtApp = useNuxtApp();
+  const appContext = nuxtApp.vueApp._context;
 
-  const vm = createVNode({
-    setup() {
-      return () => h(GlobalPopup, { id }, () => h(component, { ...data }));
-    },
-  });
+  const vm = createVNode(GlobalPopup, { id, component, data });
 
   if (appContext) {
     vm.appContext = appContext;

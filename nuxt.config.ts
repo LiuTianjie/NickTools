@@ -12,6 +12,8 @@ export default defineNuxtConfig({
     "@primevue/nuxt-module",
     "@nuxtjs/color-mode",
     "@vueuse/nuxt",
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
   ],
   primevue: {
     options: {

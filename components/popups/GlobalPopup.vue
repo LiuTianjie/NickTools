@@ -1,9 +1,11 @@
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <div class="global-popup" :id="props.id" v-if="show" @click="close">
-        <div ref="content" @click.stop>
-          <slot></slot>
+      <div class="global-popup" :id="id" v-if="show" @click="close">
+        <div class="popup-content" @click.stop>
+          <!-- 动态渲染传入的组件，并监听其 emit 的事件 -->
+          <component :is="component" v-bind="data" @close="handleChildClose" @custom-event="handleCustomEvent">
+          </component>
         </div>
       </div>
     </Transition>
@@ -13,9 +15,17 @@
 const props = defineProps({
   id: {
     type: String,
-    default: "global-popup"
-  }
-})
+    default: 'global-popup',
+  },
+  component: {
+    type: [Object, Function],
+    required: true,
+  },
+  data: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 const show = ref(true)
 
@@ -23,14 +33,19 @@ onMounted(() => {
   show.value = true
 })
 
-const content = ref(null)
 
-const close = (event: MouseEvent) => {
+const close = (event?: MouseEvent) => {
   show.value = false
-  event.stopPropagation()
+  event?.stopPropagation()
 }
 
+const handleChildClose = () => {
+  close();
+};
 
+const handleCustomEvent = (payload: any) => {
+  console.log('收到子组件的自定义事件，数据为：', payload);
+};
 
 </script>
 

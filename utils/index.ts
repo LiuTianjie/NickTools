@@ -1,2 +1,3 @@
 import { openPopup } from "@/utils/GlobalPopup";
-export { openPopup };
+import { useTimeCounter } from "./useTimeCounter";
+export { openPopup, useTimeCounter };
