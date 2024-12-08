@@ -24,7 +24,7 @@ const chatBox = ref<HTMLDivElement | null>(null)
 
 const getChatDetail = () => {
   loading.value = true
-  api.getChatDetail({
+  useApi().getChatDetail({
     chatId: props.chatId,
     offset: offset.value,
     pageSize: pageSize.value,

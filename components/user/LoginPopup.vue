@@ -68,9 +68,8 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from '#imports';
-const toast = useToast();
-const { count, isActive, startCount } = useTimeCounter()
+const toast = useToastService();
+const { count, isActive, startCount } = useCutDownCounter()
 const password = ref('');
 const loginMode = ref('login');
 const isLogin = computed(() => loginMode.value == 'login')
@@ -103,7 +102,7 @@ const register = () => {
     return
   } else {
     btnLoading.value = true
-    api.register({ email: email.value, phone: phone.value, password: password.value, code: Number(code.value), codeType: mode.value, traceId: traceId.value }).then(() => {
+    useApi().register({ email: email.value, phone: phone.value, password: password.value, code: Number(code.value), codeType: mode.value, traceId: traceId.value }).then(() => {
       toast.add({ severity: 'success', summary: '成功', detail: '注册成功', life: 3000 });
       changeLoginMode('login')
     }).catch(() => {
@@ -120,7 +119,7 @@ const getCode = useDebounceFn(() => {
     toast.add({ severity: 'error', summary: '错误', detail: '请先输入账户', life: 3000 });
     return
   }
-  api.getCode({
+  useApi().getCode({
     email: email.value,
     phone: phone.value,
     codeType: mode.value,
@@ -141,7 +140,7 @@ const login = useDebounceFn(() => {
     return
   } else {
     btnLoading.value = true
-    api.login({ account, password: password.value }).then((res: any) => {
+    useApi().login({ account, password: password.value }).then((res: any) => {
       toast.add({ severity: 'success', summary: '成功', detail: '登录成功', life: 3000 });
       setUserInfo(res.data)
       emit('close')

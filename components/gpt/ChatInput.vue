@@ -12,7 +12,7 @@ const input = ref<string>("")
 
 const sendMessage = () => {
   emit('sendMessage', input.value)
-  api.sendMessage({
+  useApi().sendMessage({
     chatId: props.chatId,
     message: input.value,
   }, (data: any) => {

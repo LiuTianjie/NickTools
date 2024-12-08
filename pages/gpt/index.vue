@@ -15,7 +15,7 @@ const loading = ref(false)
 
 const getChatList = () => {
   loading.value = true
-  api.getChatList().then((res) => {
+  useApi().getChatList().then((res) => {
     chatList.value = res.data
     currentChatId.value = res.data[0].chatId
     console.log(chatList.value);

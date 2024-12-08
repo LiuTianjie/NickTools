@@ -1,4 +1,3 @@
-import * as api from "./api";
 export interface LoginData {
   account: string;
   password: string;
@@ -53,4 +52,3 @@ export interface SendMessageData {
   chatId: string | undefined;
   message: string;
 }
-export { api };

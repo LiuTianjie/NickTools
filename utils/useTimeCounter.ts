@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useIntervalFn } from "@vueuse/core";
-export const useTimeCounter = () => {
+export const useCutDownCounter = () => {
   const count = ref(0);
 
   // resume - 继续，pause - 暂停， isActive - 是否执行中(isActive.value)
