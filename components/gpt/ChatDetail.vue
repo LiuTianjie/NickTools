@@ -30,6 +30,9 @@ const getChatDetail = () => {
     pageSize: pageSize.value,
   }).then((res) => {
     console.log(res.data)
+    setTimeout(() => {
+      scrollToBottom();
+    }, 0.5)
     chatDetail.value = res.data
   }).finally(() => {
     loading.value = false

@@ -11,6 +11,7 @@ const props = defineProps({
 const input = ref<string>("")
 
 const sendMessage = () => {
+  if (!input.value) return
   emit('sendMessage', input.value)
   useApi().sendMessage({
     chatId: props.chatId,

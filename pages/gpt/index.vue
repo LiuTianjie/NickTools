@@ -1,10 +1,12 @@
 <template>
   <div class="flex px-[16px] min-h-[calc(100vh-82px)] space-x-[16px]">
-    <GptChatList class="h-fit" :currentChatId="currentChatId" :chatList="chatList" @changeChatId="changeChatId"
-      @newChat="newChat">
+    <GptChatList class="h-fit flex-shrink-0" :currentChatId="currentChatId" :chatList="chatList"
+      @changeChatId="changeChatId" @newChat="newChat">
     </GptChatList>
-    <GptChatDetail v-for="(chat, index) in chatList" :key="index" v-show="currentChatId == chat.chatId"
-      :chatId="chat.chatId" class="flex-1"></GptChatDetail>
+    <div class="flex-1" v-if="chatList.length">
+      <GptChatDetail v-for="(chat, index) in chatList" :key="index" v-show="currentChatId == chat.chatId"
+        :chatId="chat.chatId" class="flex-1"></GptChatDetail>
+    </div>
   </div>
 </template>
 <script setup lang="ts">

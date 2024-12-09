@@ -103,45 +103,35 @@ export function useHttpRequest() {
     options?: UseFetchOptions<T>
   ) => request<T, U>(url, "DELETE", params, options);
 
-  /**
-   * 支持 EventStream（Server-Sent Events）
-   * @param url 请求的URL
-   * @param body 请求体（如果需要）
-   * @param callback 回调函数，接收每一条数据
-   */
-  const stream = async (
-    url: string,
-    body: any,
-    callback: (data: string) => void
-  ) => {
+
+  const stream = async (url: string, body: any, callback: Function) => {
+    const userInfo = useUserInfoStore();
     const token = userInfo.data?.token || "";
     const config = {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      responseType: "stream",
       body,
-      // @ts-ignore
-      responseType: "text", // 确保响应为文本
     };
-
-    try {
-      // @ts-ignore
-      const resp: any = await $fetch(`${BASE_URL}${url}`, config);
-      const reader = resp.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let done = false;
-
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        if (value) {
-          const chunk = decoder.decode(value);
-          callback(chunk);
-        }
+    // @ts-ignore
+    const resp: any = await $fetch(`${BASE_URL}${url}`, config).catch((error) => {
+      console.error(error);
+      toast.add({
+        severity: "error",
+        summary: "请求出错",
+        detail: "",
+        life: 3000,
+      });
+    });
+    const reader = resp.pipeThrough(new TextDecoderStream()).getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      callback(value);
+      if (done) {
+        break;
       }
-    } catch (error) {
-      console.error("Stream 连接出错:", error);
     }
   };
 
@@ -152,4 +142,4 @@ export function useHttpRequest() {
     del,
     stream,
   };
-}
+};
